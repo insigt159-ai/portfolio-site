@@ -852,6 +852,9 @@ body.is-sent .form__fields{display:none}
   .burger{display:grid}
   .hero__in{grid-template-columns:1fr;grid-template-areas:"text" "stack" "bottom";gap:52px}
   .hero__bottom{flex-direction:column;align-items:center}
+  /* кнопка «Записаться…» получает точную ширину колонки, чтобы её длинный
+     текст не распирал страницу на мобильных */
+  .hero__cta{width:100%}
   /* на мобильном блоки стоят друг под другом, выравнивать края не нужно */
   .hero__actions{margin-top:0}
   .stack{margin-top:0;margin-inline:auto}
@@ -880,6 +883,9 @@ body.is-sent .form__fields{display:none}
   .stat{display:flex;align-items:baseline;gap:12px}
   .stat b{font-size:26px}
   .stat span{margin-top:0}
+  /* длинные надписи кнопок (например, «Записаться на стратегическую сессию»)
+     на мобильном переносятся на строки, а не распирают страницу вправо */
+  .btn{white-space:normal}
   .hero__actions .btn,.hero__alt .btn{width:100%}
   .frow{grid-template-columns:1fr}
   .step{grid-template-columns:1fr;gap:6px}
