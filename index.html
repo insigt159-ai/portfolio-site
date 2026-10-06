@@ -88,6 +88,10 @@ button{cursor:pointer;border:0;background:none}
    ============================================================ */
 .wrap{width:100%;max-width:var(--max);margin-inline:auto;padding-inline:var(--pad)}
 .sec{position:relative;padding-block:clamp(72px,10vw,132px)}
+/* Модификатор «узкий» по вертикали: блок «Болей» сжат сверху и снизу по правке */
+.sec--tight{padding-block:clamp(48px,6.5vw,88px)}
+/* Модификатор «мини»: портфолио сжато ещё сильнее по правке */
+.sec--min{padding-block:clamp(32px,4vw,56px)}
 .sec--light{background:var(--light);color:var(--ink)}
 .sec--white{background:#fff;color:var(--ink)}
 .sec--dark{background:var(--bg);color:var(--white)}
@@ -203,6 +207,8 @@ body.menu-open .mobnav{opacity:1;transform:none;pointer-events:auto}
    6. HERO
    ============================================================ */
 .hero{position:relative;overflow:hidden;padding-top:clamp(120px,15vw,168px);padding-bottom:clamp(72px,9vw,120px);isolation:isolate}
+/* Первый экран сжат по вертикали по правке; снизу — ещё сильнее */
+.hero--min{padding-top:clamp(88px,11vw,128px);padding-bottom:clamp(32px,4vw,56px)}
 .hero__bg{position:absolute;inset:0;z-index:-2;background:
   radial-gradient(1000px 620px at 82% 6%,rgba(180,208,47,.14),transparent 62%),
   radial-gradient(760px 520px at 4% 96%,rgba(120,190,255,.09),transparent 60%),
@@ -393,7 +399,7 @@ body.menu-open .mobnav{opacity:1;transform:none;pointer-events:auto}
 /* ============================================================
    8. РЕШЕНИЯ / УТП
    ============================================================ */
-.sol-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(28px,4vw,56px) clamp(24px,4vw,64px);margin-top:clamp(40px,5vw,60px)}
+.sol-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(28px,4vw,56px) clamp(24px,4vw,64px);margin-top:clamp(24px,3vw,40px)}
 .sol{display:grid;grid-template-columns:auto minmax(0,1fr);gap:20px;align-items:start}
 .sol__m{
   flex:none;width:44px;height:44px;display:grid;place-items:center;border-radius:13px;
@@ -408,46 +414,74 @@ body.menu-open .mobnav{opacity:1;transform:none;pointer-events:auto}
 /* ============================================================
    9. ПОРТФОЛИО
    ============================================================ */
-.cases{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(18px,2.2vw,28px);margin-top:clamp(40px,5vw,60px)}
+.cases{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(14px,1.8vw,22px);margin-top:clamp(40px,5vw,60px)}
+/* Блок «Портфолио»: четыре превью в одну строку, под каждым — мини-кейс
+   из ТЗ в порядке «задача → решение → измеримый результат»:
+   «Жалюзи-Комфорт» 47 заявок, окупаемость 1 неделя, срок 7 дней;
+   «Пудра» +20% записей, 6 дней; «Лаванда» +25% бронирований за
+   2 месяца, 7 дней; цифры LenaDesign (+23% к конверсии карточки
+   с видео, просмотры ×2–3) взяты с его собственного сайта.
+   Ссылка «Смотреть все работы» из ТЗ убрана по правке — внизу секции
+   ничего нет.
+   Картинка задана явным width/height по настоящим размерам файлов
+   (1347×639, 1322×634, 1323×632, 1341×648), пропорция ~2,09 у всех четырёх —
+   высоты отличаются максимум на 2px. Обрезка через object-fit не нужна:
+   картинки растут в ширину, а не в обрезку.
+   align-items у сетки убран: карточки тянутся в высоту по самой высокой,
+   а блок результата прижат margin-top:auto — числа у всех четырёх на одной
+   горизонтали, как это сделано в отзывах. */
 .case{
-  display:flex;flex-direction:column;background:#fff;border-radius:var(--r-lg);overflow:hidden;
-  border:1px solid var(--light-2);box-shadow:var(--shadow-s);
-  transition:transform .45s var(--ease),box-shadow .45s var(--ease),border-color .45s var(--ease);
+  display:flex;flex-direction:column;background:#fff;border:1px solid var(--light-2);
+  border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--shadow-s);
+  transition:transform .45s var(--ease),box-shadow .45s var(--ease);
 }
-.case:hover{transform:translateY(-8px);box-shadow:var(--shadow-l);border-color:#D9DBDE}
-.case__prev{position:relative;aspect-ratio:16/10;overflow:hidden;background:#EDEFF1;border-bottom:1px solid var(--light-2)}
-.case__prev svg{width:100%;height:100%;transition:transform .7s var(--ease)}
-.case:hover .case__prev svg{transform:scale(1.045)}
+.case:hover{transform:translateY(-6px);box-shadow:var(--shadow-m)}
+.case__prev{position:relative;flex:0 0 auto;overflow:hidden;background:#EDEFF1}
+.case__prev img{display:block;width:100%;height:auto;transition:transform .7s var(--ease)}
+.case:hover .case__prev img{transform:scale(1.045)}
 .case__prev::after{
   content:'';position:absolute;inset:0;
   background:linear-gradient(115deg,transparent 32%,rgba(255,255,255,.5) 46%,transparent 60%);
   transform:translateX(-110%);transition:transform .9s var(--ease);
 }
 .case:hover .case__prev::after{transform:translateX(110%)}
-.case__tag{
-  position:absolute;left:14px;top:14px;z-index:2;padding:6px 12px;border-radius:999px;
-  background:rgba(14,16,18,.78);backdrop-filter:blur(6px);color:#fff;font-size:12px;font-weight:700;letter-spacing:.01em;
+/* Подвал карточки — мини-кейс в порядке из ТЗ: задача → решение →
+   измеримый результат. Две верхние пары (подпись + текст) идут сразу под
+   картинкой, а весь блок результата прижат вниз (margin-top:auto): у
+   пояснения разная длина (60–82 знака = 2–3 строки) и без автоприжатия
+   числа в разных карточках разъехались бы. Подвал тянется в высоту (flex:1),
+   а картинки различаются максимум на 2px — подписи «Задача»/«Решение»
+   стоят на одной горизонтали во всех четырёх карточках.
+   Ширина карточки ~232–260px на десктопе (контейнер 1200px минус отступы
+   и три промежутка, делённые на 4), текст ~197–224px, при 12.5px это
+   ~33 знака в строке, то есть задача и решение уходят в 3–4 строки.
+   Ниже 1080px две метрики схлопываются в один столбец (см. медиазапрос). */
+.case__m{
+  flex:1;
+  padding:clamp(14px,1.5vw,17px) clamp(14px,1.5vw,17px) clamp(15px,1.6vw,18px);
+  display:flex;flex-direction:column;gap:12px;
 }
-.case__num{
-  position:absolute;right:14px;top:14px;z-index:2;width:34px;height:34px;border-radius:10px;
-  background:rgba(255,255,255,.9);color:var(--ink);display:grid;place-items:center;font-weight:800;font-size:14px;
+.case__m-pair{display:flex;flex-direction:column;gap:5px}
+.case__m-t{margin:0;font-size:12.5px;line-height:1.5;color:var(--ink-2)}
+.case__m-res{margin-top:auto;display:flex;flex-direction:column;gap:11px}
+.case__m-k{
+  font-size:10.5px;font-weight:800;letter-spacing:.11em;text-transform:uppercase;
+  color:#6B7178; /* 4.9:1 на белом — проходит AA для 10.5px (в отличие от #8A9198 = 3.1:1) */
 }
-.case__body{padding:clamp(20px,2.4vw,28px);display:flex;flex-direction:column;flex:1}
-.case__niche{font-size:12.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#8A9198}
-.case__t{font-size:21px;font-weight:800;letter-spacing:-.028em;margin:8px 0 14px}
-.case__list{display:flex;flex-direction:column;gap:12px;margin-bottom:20px}
-.case__row{font-size:14.8px;line-height:1.55;color:var(--ink-2);display:grid;grid-template-columns:74px minmax(0,1fr);gap:10px}
-.case__row dt{font-size:11.5px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:#A0A6AC;padding-top:3px}
-.case__row dd{margin:0}
-.case__res{
-  margin-top:auto;padding:14px 16px;border-radius:var(--r-sm);background:var(--light);
-  font-size:15.4px;font-weight:700;color:var(--ink);line-height:1.4;
+.case__m-figs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.case__m-fig{display:flex;flex-direction:column;gap:3px;min-width:0}
+.case__m-fig b{
+  font-size:clamp(15.5px,1.5vw,19px);font-weight:800;letter-spacing:-.03em;
+  line-height:1.1;color:var(--ink);white-space:nowrap;
 }
-.case__res span{color:#5E8F00}
-.case__foot{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:18px;padding-top:18px;border-top:1px solid var(--light-2)}
-.case__term{font-size:13.5px;color:#8A9198;font-weight:600}
-.case__term b{color:var(--ink);font-weight:800}
-.cases__all{display:flex;justify-content:center;margin-top:clamp(34px,4vw,50px);font-size:14px;color:#8A9198}
+/* Главный результат — акцент студии #5A720B: 5.5:1 на белом, читается и как
+   обычный текст, и как число-метрика. Срок остаётся чернильным. */
+.case__m-fig--key b{color:#5A720B}
+.case__m-fig span{font-size:11.5px;line-height:1.4;color:#6B7178}
+.case__m-note{
+  margin:0;padding-top:11px;border-top:1px solid var(--light-2);
+  font-size:12.5px;line-height:1.5;color:var(--ink-2);
+}
 
 /* ============================================================
    10. ОБО МНЕ
@@ -591,6 +625,38 @@ body.menu-open .mobnav{opacity:1;transform:none;pointer-events:auto}
 .price__for b{display:block;color:var(--ink);font-size:11.5px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px}
 .price__cta{margin-top:auto}
 .price-note2{margin-top:26px;font-size:14.5px;color:#8A9198;display:flex;align-items:center;gap:9px;justify-content:center;text-align:center}
+
+/* ============================================================
+   12b. КОГДА НУЖЕН САЙТ (графитовый блок после «Цен»)
+   ============================================================ */
+.need-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(16px,2vw,24px);margin-top:clamp(40px,5vw,58px)}
+.need{
+  position:relative;display:grid;grid-template-columns:auto minmax(0,1fr);gap:18px;align-items:start;
+  padding:clamp(24px,2.6vw,32px);border-radius:var(--r-lg);overflow:hidden;
+  background:linear-gradient(180deg,var(--card) 0%,rgba(28,31,35,.55) 100%);
+  border:1px solid var(--line);
+  transition:transform .4s var(--ease),border-color .4s var(--ease),box-shadow .4s var(--ease);
+}
+/* Мягкое лаймовое свечение в углу, как у карточек «Болей» (там оранжевое) */
+.need::before{
+  content:'';position:absolute;inset:auto auto -70px -70px;width:190px;height:190px;border-radius:50%;
+  background:radial-gradient(circle,rgba(180,208,47,.14),transparent 70%);opacity:0;transition:opacity .45s var(--ease);
+}
+.need:hover{transform:translateY(-6px);border-color:rgba(255,255,255,.2);box-shadow:var(--shadow-l)}
+.need:hover::before{opacity:1}
+.need__m{
+  flex:none;width:44px;height:44px;display:grid;place-items:center;border-radius:13px;
+  background:var(--lime);color:var(--ink);
+  box-shadow:0 10px 22px -12px rgba(180,208,47,.95);
+  transition:transform .4s var(--ease);
+}
+.need:hover .need__m{transform:rotate(8deg) scale(1.06)}
+.need__m svg{width:22px;height:22px}
+.need__t{font-size:clamp(18px,1.85vw,21px);font-weight:800;letter-spacing:-.025em;line-height:1.24}
+.need__b{margin-top:16px;color:var(--muted);font-size:15.8px}
+/* Пятый пункт — «вытянутая» карточка на всю ширину, чтобы сетка 4+1
+   оставалась аккуратной: два ряда по две карточки и широкий финал */
+.need--wide{grid-column:1/-1;border-color:rgba(180,208,47,.35)}
 
 /* ============================================================
    13. ОТЗЫВЫ
@@ -790,7 +856,15 @@ body.is-sent .form__fields{display:none}
   .hero__actions{margin-top:0}
   .stack{margin-top:0}
   .stack{max-width:560px}
-  .pain-grid,.cases,.price-grid{grid-template-columns:1fr}
+  /* .cases здесь не участвует: четыре превью остаются в одну строку до 760px,
+     потом переходят на две колонки в @media (max-width:760px) */
+  .pain-grid,.price-grid{grid-template-columns:1fr}
+  /* Ниже 1080px карточка сужается до ~230px и колонка метрики падает до
+     95px и меньше: «47 заявок» (≈83px в 16.5px bold) и подпись «срок
+     разработки» (≈86px в 11.5px) перестают помещаться в полку и рвутся
+     по словам. Поэтому две метрики в подвале уходят в один столбец —
+     тогда им достаётся вся ширина подвала (≈180–200px). */
+  .case__m-figs{grid-template-columns:1fr;gap:9px}
   .price--hot{transform:none}
   .price--hot:hover{transform:translateY(-6px)}
   .about{grid-template-columns:1fr}
@@ -813,8 +887,10 @@ body.is-sent .form__fields{display:none}
   .step__line{display:none}
   .ftr__top{grid-template-columns:1fr;gap:30px}
   .rev-top{align-items:flex-start}
-  .case__row{grid-template-columns:1fr;gap:2px}
-  .case__row dt{padding-top:0}
+  /* четыре превью разваливались в мелкие плашки, спариваем их */
+  .cases{grid-template-columns:repeat(2,minmax(0,1fr))}
+  /* графитовый блок «Признаки»: карточки в одну колонку */
+  .need-grid{grid-template-columns:1fr}
   .about__ph-tag{left:12px}
   .totop{right:14px;bottom:14px;width:46px;height:46px}
 }
@@ -850,6 +926,7 @@ body.is-sent .form__fields{display:none}
       <a href="#about">Обо мне</a>
       <a href="#process">Процесс</a>
       <a href="#prices">Цены</a>
+      <a href="#nuzhen">Признаки</a>
       <a href="#otzyvy">Отзывы</a>
     </nav>
     <div class="hdr__cta"><a class="btn btn--lime" href="#cta">Записаться на сессию</a></div>
@@ -863,13 +940,14 @@ body.is-sent .form__fields{display:none}
   <a href="#about">Обо мне</a>
   <a href="#process">Процесс</a>
   <a href="#prices">Цены</a>
+  <a href="#nuzhen">Признаки</a>
   <a href="#otzyvy">Отзывы</a>
   <a class="btn btn--lime btn--block" href="#cta">Записаться на стратегическую сессию</a>
 </nav>
 
 <main>
 <!-- ============ БЛОК 1. ПЕРВЫЙ ЭКРАН ============ -->
-<section class="hero" id="hero">
+<section class="hero hero--min" id="hero">
   <div class="hero__bg" aria-hidden="true"></div>
   <div class="hero__grid" aria-hidden="true"></div>
   <span class="orb orb--1" aria-hidden="true"></span>
@@ -951,7 +1029,7 @@ body.is-sent .form__fields{display:none}
 </section>
 
 <!-- ============ БЛОК 2. БОЛИ ============ -->
-<section class="sec sec--dark" id="boli">
+<section class="sec sec--dark sec--min" id="boli">
   <div class="wrap">
     <span class="eyebrow" data-reveal>Боли</span>
     <h2 class="h-sec h-sec--wide" data-reveal style="--rd:60ms">Знакомы эти ситуации?</h2>
@@ -979,7 +1057,7 @@ body.is-sent .form__fields{display:none}
 </section>
 
 <!-- ============ БЛОК 3. РЕШЕНИЯ / УТП ============ -->
-<section class="sec sec--white" id="resheniya">
+<section class="sec sec--white sec--min" id="resheniya">
   <div class="wrap">
     <span class="eyebrow" data-reveal>Решения</span>
     <h2 class="h-sec h-sec--wide" data-reveal style="--rd:60ms">В студии <span class="acc">lenadesign</span> мы делаем иначе. Мы проектируем <span class="acc">бизнес-инструменты.</span></h2>
@@ -1021,167 +1099,142 @@ body.is-sent .form__fields{display:none}
 </section>
 
 <!-- ============ БЛОК 4. ПОРТФОЛИО ============ -->
-<section class="sec sec--light" id="kontakty">
+<section class="sec sec--light sec--min" id="kontakty">
   <div class="wrap">
     <span class="eyebrow" data-reveal>Портфолио</span>
-    <h2 class="h-sec h-sec--wide" data-reveal style="--rd:60ms">Наши работы. Каждая — с измеримым результатом.</h2>
+    <h2 class="h-sec h-sec--wide" data-reveal style="--rd:60ms">Наши работы. Каждая —<br><span class="acc">с измеримым результатом.</span></h2>
 
     <div class="cases">
 
-      <!-- Кейс 1 -->
-      <article class="case" data-reveal>
+      <!-- Четыре превью в одну строку, картинки уменьшены. Под каждым — подвал
+           .case__m: задача, решение и измеримый результат из ТЗ (47 заявок /
+           +20% / +25%, сроки 6–7 дней). Для LenaDesign задача и решение
+           взяты с его же сайта (кейс «Наполнитель»), для «Лаванды» решение
+           составлено по устройству её сайта — в ТЗ его не было. Блок
+           результата прижат вниз карточки, чтобы числа встали на одной
+           горизонтали во всех четырёх карточках. Ссылка «Смотреть все
+           работы» из ТЗ удалена по правке.
+           width/height — по настоящим размерам файлов, чтобы место под них было
+           зарезервировано заранее и картинки не «прыгали» при загрузке.
+           Каждое превью открывает свой живой сайт в новой вкладке:
+           target="_blank" + rel="noopener" (чтобы открытая страница не получила
+           доступ к window.opener).
+           Порядок слева направо (по правке): Лаванда, Рулон (Жалюзи),
+           LenaDesign, Пудра — 4-е превью переставлено первым, остальные три
+           сдвинуты вправо. Ступени появления --rd идут по новому порядку:
+           0 / 90 / 180 / 270ms. Порядок отличается от порядка ссылок в
+           задании. Соответствие картинок
+           сайтам определено по фирменной палитре:
+             1.jpg — светлый фон, шалфейно-зелёный и терракотовый акценты -> /rulon/
+             3.jpg — почти чёрный фон + золото, 98% цветных пикселей в оранжевом -> /portfolio/
+             4.jpg — тёмный коралл (G≈B, как --color-cocoa) + розовый -> /pudra/
+             5.jpg — кофейно-розовый (espresso + розовые подсветки) -> /lavanda-spa/ -->
+      <!-- Превью 01 -->
+      <a class="case" href="https://insigt159-ai.github.io/lavanda-spa/" target="_blank" rel="noopener" data-reveal title="Открыть сайт спа-салона «Лаванда» в новой вкладке">
         <div class="case__prev">
-          <span class="case__tag">Лендинг под ключ</span>
-          <span class="case__num">01</span>
-          <!-- МЕСТО ДЛЯ ПРЕВЬЮ: замените этот svg на <img src="case-zalyuzi.jpg" alt="Превью лендинга Жалюзи-Комфорт" loading="lazy"> -->
-          <svg viewBox="0 0 400 250" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Превью лендинга компании Жалюзи-Комфорт">
-            <defs>
-              <linearGradient id="c1bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#33200F"/><stop offset="1" stop-color="#4E3116"/></linearGradient>
-              <linearGradient id="c1win" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFDCA6"/><stop offset="1" stop-color="#EBA551"/></linearGradient>
-            </defs>
-            <rect width="400" height="250" fill="url(#c1bg)"/>
-            <rect x="246" y="34" width="132" height="104" rx="8" fill="url(#c1win)"/>
-            <g fill="#A96C2B" opacity=".5">
-              <rect x="246" y="34" width="132" height="8"/><rect x="246" y="50" width="132" height="8"/>
-              <rect x="246" y="66" width="132" height="8"/><rect x="246" y="82" width="132" height="8"/>
-              <rect x="246" y="98" width="132" height="8"/><rect x="246" y="114" width="132" height="8"/>
-            </g>
-            <rect x="26" y="40" width="70" height="7" rx="3.5" fill="#F0A34A"/>
-            <rect x="26" y="62" width="150" height="12" rx="6" fill="#fff" opacity=".92"/>
-            <rect x="26" y="80" width="108" height="12" rx="6" fill="#fff" opacity=".62"/>
-            <rect x="26" y="106" width="132" height="7" rx="3.5" fill="#fff" opacity=".32"/>
-            <rect x="26" y="118" width="96" height="7" rx="3.5" fill="#fff" opacity=".2"/>
-            <rect x="26" y="142" width="92" height="22" rx="11" fill="#F0A34A"/>
-            <rect x="128" y="142" width="58" height="22" rx="11" fill="none" stroke="#fff" stroke-opacity=".32"/>
-            <g fill="#fff" opacity=".09">
-              <rect x="26" y="184" width="104" height="40" rx="8"/><rect x="140" y="184" width="104" height="40" rx="8"/><rect x="254" y="184" width="120" height="40" rx="8"/>
-            </g>
-            <g fill="#F0A34A"><rect x="38" y="196" width="48" height="6" rx="3"/><rect x="152" y="196" width="40" height="6" rx="3"/><rect x="266" y="196" width="52" height="6" rx="3"/></g>
-            <g fill="#fff" opacity=".28"><rect x="38" y="208" width="76" height="5" rx="2.5"/><rect x="152" y="208" width="80" height="5" rx="2.5"/><rect x="266" y="208" width="92" height="5" rx="2.5"/></g>
-          </svg>
+          <img src="images/5.jpg" width="1341" height="648" alt="Превью сайта спа-салона «Лаванда»: 90 минут тишины" loading="lazy" decoding="async">
         </div>
-        <div class="case__body">
-          <span class="case__niche">Ниша: продажа и установка жалюзи</span>
-          <h3 class="case__t">Компания «Жалюзи-Комфорт»</h3>
-          <dl class="case__list">
-            <div class="case__row"><dt>Задача</dt><dd>Заменить старый сайт-визитку на лендинг, который будет приносить заявки.</dd></div>
-            <div class="case__row"><dt>Решение</dt><dd>Пересобрали оффер с акцентом на бесплатный замер и монтаж за 1 день, добавили блок с преимуществами.</dd></div>
-          </dl>
-          <p class="case__res">Результат: <span>47 заявок за первый месяц</span>, окупили разработку за 1 неделю.</p>
-          <div class="case__foot">
-            <span class="case__term">Срок: <b>7 дней</b></span>
-            <a class="link-u" href="#cta">Смотреть кейс
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"/></svg>
-            </a>
+        <div class="case__m">
+          <div class="case__m-pair">
+            <span class="case__m-k">Задача</span>
+            <p class="case__m-t">Передать атмосферу спокойствия и доверия, увеличить продажи комплексных программ.</p>
+          </div>
+          <div class="case__m-pair">
+            <span class="case__m-k">Решение</span>
+            <p class="case__m-t">Собрали всё вокруг программы «Перезагрузка»: блок с болями, пошаговый сценарий, отзывы и запись за 30 секунд.</p>
+          </div>
+          <div class="case__m-res">
+            <span class="case__m-k">Измеримый результат</span>
+            <div class="case__m-figs">
+              <div class="case__m-fig case__m-fig--key"><b>+25%</b><span>бронирований</span></div>
+              <div class="case__m-fig"><b>7 дней</b><span>срок разработки</span></div>
+            </div>
+            <p class="case__m-note">Брони дорогих комплексных программ считали за 2 месяца до и после.</p>
           </div>
         </div>
-      </article>
+      </a>
 
-      <!-- Кейс 2 -->
-      <article class="case" data-reveal style="--rd:110ms">
+      <!-- Превью 02 -->
+      <a class="case" href="https://insigt159-ai.github.io/rulon/" target="_blank" rel="noopener" data-reveal style="--rd:90ms" title="Открыть сайт «Жалюзи на окна» в новой вкладке">
         <div class="case__prev">
-          <span class="case__tag">Лендинг под ключ</span>
-          <span class="case__num">02</span>
-          <!-- МЕСТО ДЛЯ ПРЕВЬЮ: замените на <img src="case-pudra.jpg" alt="Превью сайта салона красоты Пудра" loading="lazy"> -->
-          <svg viewBox="0 0 400 250" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Превью сайта салона красоты Пудра">
-            <defs>
-              <linearGradient id="c2bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FBEFF3"/><stop offset="1" stop-color="#F6E4EA"/></linearGradient>
-              <linearGradient id="c2p" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#E8B9C9"/><stop offset="1" stop-color="#C98BA3"/></linearGradient>
-            </defs>
-            <rect width="400" height="250" fill="url(#c2bg)"/>
-            <rect x="20" y="20" width="58" height="7" rx="3.5" fill="#B07C90" opacity=".65"/>
-            <rect x="286" y="20" width="22" height="7" rx="3.5" fill="#B07C90" opacity=".4"/>
-            <rect x="316" y="20" width="22" height="7" rx="3.5" fill="#B07C90" opacity=".4"/>
-            <rect x="346" y="20" width="34" height="7" rx="3.5" fill="#B07C90" opacity=".4"/>
-            <rect x="112" y="58" width="176" height="14" rx="7" fill="#7C4F60"/>
-            <rect x="148" y="80" width="104" height="8" rx="4" fill="#A9788B" opacity=".6"/>
-            <rect x="166" y="94" width="68" height="8" rx="4" fill="#A9788B" opacity=".38"/>
-            <rect x="30" y="122" width="164" height="98" rx="12" fill="url(#c2p)"/>
-            <circle cx="112" cy="158" r="20" fill="#fff" opacity=".35"/>
-            <rect x="52" y="196" width="112" height="7" rx="3.5" fill="#fff" opacity=".5"/>
-            <rect x="206" y="122" width="164" height="98" rx="12" fill="#fff" opacity=".72"/>
-            <circle cx="288" cy="158" r="20" fill="#E8B9C9" opacity=".55"/>
-            <rect x="228" y="196" width="120" height="7" rx="3.5" fill="#C98BA3" opacity=".45"/>
-            <rect x="152" y="228" width="96" height="16" rx="8" fill="#7C4F60"/>
-          </svg>
+          <img src="images/1.jpg" width="1347" height="639" alt="Превью сайта «Жалюзи на окна»: свет и комфорт, бесплатный замер" loading="lazy" decoding="async">
         </div>
-        <div class="case__body">
-          <span class="case__niche">Ниша: бьюти-услуги, премиум-сегмент</span>
-          <h3 class="case__t">Салон красоты «Пудра»</h3>
-          <dl class="case__list">
-            <div class="case__row"><dt>Задача</dt><dd>Создать сайт, который передаст эстетику бренда и увеличит онлайн-записи.</dd></div>
-            <div class="case__row"><dt>Решение</dt><dd>Добавили блок с видеоотзывами клиентов, онлайн-запись на первом экране, сами написали тексты.</dd></div>
-          </dl>
-          <p class="case__res">Результат: <span>записи через сайт выросли на +20%</span>.</p>
-          <div class="case__foot">
-            <span class="case__term">Срок: <b>6 дней</b></span>
-            <a class="link-u" href="#cta">Смотреть кейс
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"/></svg>
-            </a>
+        <div class="case__m">
+          <div class="case__m-pair">
+            <span class="case__m-k">Задача</span>
+            <p class="case__m-t">Заменить старый сайт-визитку на лендинг, который будет приносить заявки.</p>
+          </div>
+          <div class="case__m-pair">
+            <span class="case__m-k">Решение</span>
+            <p class="case__m-t">Пересобрали оффер с акцентом на бесплатный замер и монтаж за 1 день, добавили блок с преимуществами.</p>
+          </div>
+          <div class="case__m-res">
+            <span class="case__m-k">Измеримый результат</span>
+            <div class="case__m-figs">
+              <div class="case__m-fig case__m-fig--key"><b>47 заявок</b><span>за первый месяц</span></div>
+              <div class="case__m-fig"><b>7 дней</b><span>срок разработки</span></div>
+            </div>
+            <p class="case__m-note">Окупили разработку за 1 неделю. Заявки считали по цели из формы в Яндекс.Метрике.</p>
           </div>
         </div>
-      </article>
+      </a>
 
-      <!-- Кейс 3 -->
-      <article class="case" data-reveal style="--rd:220ms">
+      <!-- Превью 03 -->
+      <a class="case" href="https://insigt159-ai.github.io/portfolio/" target="_blank" rel="noopener" data-reveal style="--rd:180ms" title="Открыть сайт LenaDesign в новой вкладке">
         <div class="case__prev">
-          <span class="case__tag">Лендинг под ключ</span>
-          <span class="case__num">03</span>
-          <!-- МЕСТО ДЛЯ ПРЕВЬЮ: замените на <img src="case-lavanda.jpg" alt="Превью сайта спа-салона Лаванда" loading="lazy"> -->
-          <svg viewBox="0 0 400 250" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Превью сайта спа-салона Лаванда">
-            <defs>
-              <linearGradient id="c3bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1E2E28"/><stop offset="1" stop-color="#33473C"/></linearGradient>
-              <linearGradient id="c3img" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7FA894"/><stop offset="1" stop-color="#A9C6B4"/></linearGradient>
-            </defs>
-            <rect width="400" height="250" fill="url(#c3bg)"/>
-            <circle cx="330" cy="52" r="46" fill="#C9B6D8" opacity=".22"/>
-            <rect x="244" y="34" width="136" height="128" rx="14" fill="url(#c3img)"/>
-            <g stroke="#E9F1EC" stroke-width="3" fill="none" stroke-linecap="round" opacity=".7">
-              <path d="M274 132c-12-16 8-30 20-24 8 4 10 14 4 24"/>
-              <path d="M322 134c-14-18 6-34 20-26 8 4 10 16 4 26"/>
-            </g>
-            <circle cx="292" cy="66" r="13" fill="#fff" opacity=".3"/>
-            <rect x="26" y="46" width="64" height="7" rx="3.5" fill="#C9B6D8" opacity=".7"/>
-            <rect x="26" y="70" width="172" height="13" rx="6.5" fill="#F2F7F4" opacity=".95"/>
-            <rect x="26" y="90" width="126" height="13" rx="6.5" fill="#F2F7F4" opacity=".6"/>
-            <rect x="26" y="116" width="148" height="7" rx="3.5" fill="#fff" opacity=".3"/>
-            <rect x="26" y="128" width="104" height="7" rx="3.5" fill="#fff" opacity=".18"/>
-            <rect x="26" y="150" width="104" height="24" rx="12" fill="#C9B6D8"/>
-            <rect x="140" y="150" width="70" height="24" rx="12" fill="none" stroke="#fff" stroke-opacity=".3"/>
-            <g fill="#fff" opacity=".08"><rect x="26" y="192" width="166" height="30" rx="8"/></g>
-            <rect x="38" y="203" width="52" height="6" rx="3" fill="#C9B6D8" opacity=".8"/>
-            <rect x="38" y="214" width="120" height="5" rx="2.5" fill="#fff" opacity=".26"/>
-          </svg>
+          <img src="images/3.jpg" width="1322" height="634" alt="Превью сайта LenaDesign: карточки и видео для маркетплейсов" loading="lazy" decoding="async">
         </div>
-        <div class="case__body">
-          <span class="case__niche">Ниша: спа-услуги, релакс и премиум</span>
-          <h3 class="case__t">Спа-салон «Лаванда»</h3>
-          <dl class="case__list">
-            <div class="case__row"><dt>Задача</dt><dd>Передать атмосферу спокойствия и доверия, увеличить продажи комплексных программ.</dd></div>
-          </dl>
-          <p class="case__res">Результат: рост бронирований дорогих комплексных программ — <span>+25% за 2 месяца</span>.</p>
-          <div class="case__foot">
-            <span class="case__term">Срок: <b>7 дней</b></span>
-            <a class="link-u" href="#cta">Смотреть кейс
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"/></svg>
-            </a>
+        <div class="case__m">
+          <div class="case__m-pair">
+            <span class="case__m-k">Задача</span>
+            <p class="case__m-t">Выделить товар в выдаче: у покупателя всего 1–2 секунды, чтобы остановить скролл.</p>
+          </div>
+          <div class="case__m-pair">
+            <span class="case__m-k">Решение</span>
+            <p class="case__m-t">4 слайда инфографики плюс видео с оживлением фото, синхронный звук и анимация.</p>
+          </div>
+          <div class="case__m-res">
+            <span class="case__m-k">Измеримый результат</span>
+            <div class="case__m-figs">
+              <div class="case__m-fig case__m-fig--key"><b>+23%</b><span>к конверсии</span></div>
+              <div class="case__m-fig"><b>×2–3</b><span>к просмотрам</span></div>
+            </div>
+            <p class="case__m-note">Карточки с видео для WB / Ozon. Цифры — по данным самих площадок.</p>
           </div>
         </div>
-      </article>
+      </a>
+
+      <!-- Превью 04 -->
+      <a class="case" href="https://insigt159-ai.github.io/pudra/" target="_blank" rel="noopener" data-reveal style="--rd:270ms" title="Открыть сайт салона красоты «Пудра» в новой вкладке">
+        <div class="case__prev">
+          <img src="images/4.jpg" width="1323" height="632" alt="Превью сайта салона красоты «Пудра»: стрижки, окрашивание, брови и маникюр" loading="lazy" decoding="async">
+        </div>
+        <div class="case__m">
+          <div class="case__m-pair">
+            <span class="case__m-k">Задача</span>
+            <p class="case__m-t">Создать сайт, который передаст эстетику бренда и увеличит онлайн-записи.</p>
+          </div>
+          <div class="case__m-pair">
+            <span class="case__m-k">Решение</span>
+            <p class="case__m-t">Добавили блок с видеоотзывами клиентов, онлайн-запись на первом экране, сами написали тексты.</p>
+          </div>
+          <div class="case__m-res">
+            <span class="case__m-k">Измеримый результат</span>
+            <div class="case__m-figs">
+              <div class="case__m-fig case__m-fig--key"><b>+20%</b><span>онлайн-записей</span></div>
+              <div class="case__m-fig"><b>6 дней</b><span>срок разработки</span></div>
+            </div>
+            <p class="case__m-note">Прирост считали по заявкам через сайт: месяц до и после запуска.</p>
+          </div>
+        </div>
+      </a>
 
     </div>
-
-    <p class="cases__all" data-reveal>
-      <a class="link-u" href="#cta" style="border-color:rgba(21,23,26,.18);color:#6B7178">
-        Смотреть все работы
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"/></svg>
-      </a>
-    </p>
   </div>
 </section>
 
 <!-- ============ БЛОК 5. ОБО МНЕ ============ -->
-<section class="sec sec--white" id="about">
+<section class="sec sec--white sec--min" id="about">
   <div class="wrap">
     <div class="about">
       <div class="about__ph" data-reveal>
@@ -1234,7 +1287,7 @@ body.is-sent .form__fields{display:none}
 </section>
 
 <!-- ============ БЛОК 6. ПРОЦЕСС РАБОТЫ ============ -->
-<section class="sec sec--dark" id="process">
+<section class="sec sec--dark sec--min" id="process">
   <div class="wrap">
     <span class="eyebrow" data-reveal>Процесс</span>
     <h2 class="h-sec h-sec--wide" data-reveal style="--rd:60ms">Как мы работаем. <span class="acc">Прозрачно и без сюрпризов.</span></h2>
@@ -1276,10 +1329,10 @@ body.is-sent .form__fields{display:none}
 </section>
 
 <!-- ============ БЛОК 7. ЦЕНЫ ============ -->
-<section class="sec sec--white" id="prices">
+<section class="sec sec--white sec--min" id="prices">
   <div class="wrap">
     <span class="eyebrow" data-reveal>Цены</span>
-    <h2 class="h-sec h-sec--wide" data-reveal style="--rd:60ms">Прозрачные цены для старта вашего проекта.</h2>
+    <h2 class="h-sec h-sec--wide" data-reveal style="--rd:60ms"><span class="acc">Прозрачные цены</span> для старта вашего проекта.</h2>
     <p class="price-note" data-reveal style="--rd:100ms">
       <b>Я нарабатываю портфолио, поэтому цены ниже рыночных.</b> Но я не работаю с теми, кто ищет «сайт за копейки» и бесконечные правки.
       Я беру в работу только те проекты, где вижу потенциал для сильного результата.
@@ -1371,8 +1424,68 @@ body.is-sent .form__fields{display:none}
   </div>
 </section>
 
+<!-- ============ БЛОК 7б. КОГДА НУЖЕН САЙТ (графитовый) ============ -->
+<section class="sec sec--dark sec--min" id="nuzhen">
+  <div class="wrap">
+    <span class="eyebrow" data-reveal>Признаки</span>
+    <h2 class="h-sec h-sec--wide" data-reveal style="--rd:60ms">Вам <span class="acc">точно нужен новый сайт</span>, если вы узнали себя хотя бы в одном пункте:</h2>
+
+    <div class="need-grid">
+      <article class="need" data-reveal>
+        <div class="need__m" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+        </div>
+        <div>
+          <h3 class="need__t">Вы теряете клиентов, которые уходят к конкурентам с более удобным сайтом.</h3>
+          <p class="need__b">Ваш бизнес находят через поиск или рекламу, но люди закрывают вкладку через 5 секунд, потому что сайт не отвечает на их вопросы.</p>
+        </div>
+      </article>
+
+      <article class="need" data-reveal style="--rd:90ms">
+        <div class="need__m" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+        </div>
+        <div>
+          <h3 class="need__t">Вы зависите от сарафанного радио и соцсетей.</h3>
+          <p class="need__b">Алгоритмы меняются, охваты падают, а единой точки, где клиент может узнать о вас всё и оставить заявку, у вас нет.</p>
+        </div>
+      </article>
+
+      <article class="need" data-reveal style="--rd:180ms">
+        <div class="need__m" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+        </div>
+        <div>
+          <h3 class="need__t">Вы стесняетесь давать ссылку на свой текущий сайт.</h3>
+          <p class="need__b">Партнерам, крупным клиентам, на презентациях. Понимаете, что он не отражает уровень вашего бизнеса.</p>
+        </div>
+      </article>
+
+      <article class="need" data-reveal style="--rd:270ms">
+        <div class="need__m" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+        </div>
+        <div>
+          <h3 class="need__t">Вы устали объяснять одно и то же каждому новому клиенту по телефону.</h3>
+          <p class="need__b">Сайт мог бы снимать 80% возражений и вопросов еще до звонка — если бы был правильно построен.</p>
+        </div>
+      </article>
+
+      <article class="need need--wide" data-reveal style="--rd:360ms">
+        <div class="need__m" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+        </div>
+        <div>
+          <h3 class="need__t">Вы запускаете новый продукт, услугу или выходите в новый город.</h3>
+          <p class="need__b">И вам нужна быстрая, рабочая площадка для рекламы, а не «визитка для галочки».</p>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
 <!-- ============ БЛОК 8. ОТЗЫВЫ ============ -->
-<section class="sec sec--light" id="otzyvy">
+<section class="sec sec--light sec--min" id="otzyvy">
   <div class="wrap">
     <div class="rev-top">
       <div>
@@ -1446,7 +1559,7 @@ body.is-sent .form__fields{display:none}
 </section>
 
 <!-- ============ БЛОК 9. CTA + МИНИ-АНКЕТА ============ -->
-<section class="sec cta" id="cta">
+<section class="sec sec--min cta" id="cta">
   <div class="wrap cta__in">
     <div>
       <span class="eyebrow" data-reveal>Стратегическая сессия</span>
