@@ -6,6 +6,10 @@
 <title>LenaDesign — продающий лендинг за 7 дней: тексты, дизайн и верстка</title>
 <meta name="description" content="Студия Lenadesign: лендинг под ключ за 5–7 дней. Пишем тексты сами, рисуем дизайн без шаблонов, верстаем на чистом коде. Бесплатная стратегическая сессия и скетч первого экрана в подарок.">
 <meta name="theme-color" content="#15171A">
+<!-- запрет кеширования, чтобы телефон не держал старую копию страницы -->
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
 <meta property="og:type" content="website">
 <meta property="og:title" content="LenaDesign — продающий лендинг за 7 дней">
 <meta property="og:description" content="Тексты, дизайн и верстка лендинга под ключ за 5–7 дней. Фиксированная цена, чистый код, запуск под рекламу.">
@@ -884,8 +888,9 @@ body.is-sent .form__fields{display:none}
   .stat b{font-size:26px}
   .stat span{margin-top:0}
   /* длинные надписи кнопок (например, «Записаться на стратегическую сессию»)
-     на мобильном переносятся на строки, а не распирают страницу вправо */
-  .btn{white-space:normal}
+     на мобильном переносятся на строки, а не распирают страницу вправо;
+     text-align:center центрирует сами строки внутри двухрядной кнопки */
+  .btn{white-space:normal;text-align:center}
   .hero__actions .btn,.hero__alt .btn{width:100%}
   .frow{grid-template-columns:1fr}
   .step{grid-template-columns:1fr;gap:6px}
@@ -908,11 +913,9 @@ body.is-sent .form__fields{display:none}
 /* ============================================================
    18. MOTION / PRINT
    ============================================================ */
-@media (prefers-reduced-motion:reduce){
-  html{scroll-behavior:auto}
-  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
-  [data-reveal]{opacity:1;transform:none}
-}
+/* Анимации включены всегда (решение клиента): системная настройка
+   «уменьшение движения» на телефонах больше не гасит движение.
+   Блок @media (prefers-reduced-motion) намеренно удалён. */
 @media print{
   .hdr,.mobnav,.totop,.orb,.rev-nav{display:none}
   body{background:#fff;color:#000}
@@ -1728,7 +1731,9 @@ body.is-sent .form__fields{display:none}
 (function () {
   'use strict';
 
-  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  /* анимации включены всегда (решение клиента): системная настройка «уменьшение
+     движения» на телефонах не должна гасить reveal, счётчики и плавный скролл */
+  var reduceMotion = false;
 
   /* ---------- 1. Sticky header ---------- */
   var hdr = document.getElementById('hdr');
