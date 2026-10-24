@@ -792,6 +792,7 @@ textarea.input{resize:vertical;min-height:92px;line-height:1.5}
 .radio input:focus-visible ~ .radio__mk{outline:2px solid var(--lime);outline-offset:2px}
 .form__submit{margin-top:28px}
 .form__legal{margin-top:14px;font-size:12.6px;line-height:1.5;color:#9AA0A6;text-align:center}
+.form__net{margin-top:12px;font-size:13.5px;font-weight:600;line-height:1.45;color:var(--orange);text-align:center}
 .spinner{width:18px;height:18px;border-radius:50%;border:2.5px solid rgba(21,23,26,.25);border-top-color:var(--ink);animation:spin .7s linear infinite;display:none}
 .btn.is-loading .spinner{display:block}
 .btn.is-loading .btn__txt{opacity:.55}
@@ -826,6 +827,16 @@ body.is-sent .form__fields{display:none}
 .ftr__l{display:flex;flex-direction:column;gap:11px}
 .ftr__l a,.ftr__l span{font-size:15px;color:var(--muted);transition:color .2s}
 .ftr__l a:hover{color:var(--lime)}
+/* Кнопки мессенджеров MAX и VK вместо текстовых контактов */
+.ftr__btns{display:flex;flex-direction:column;gap:10px}
+.ftr__l .ftr__btn{
+  display:flex;align-items:center;justify-content:center;gap:9px;
+  padding:11px 16px;border-radius:999px;border:1px solid var(--lime);
+  background:rgba(180,208,47,.06);color:var(--lime);font-size:14.5px;font-weight:700;
+  transition:border-color .25s var(--ease),background-color .25s var(--ease),color .25s var(--ease),transform .25s var(--ease);
+}
+.ftr__l .ftr__btn:hover{border-color:var(--lime);background:var(--lime);color:var(--ink);transform:translateY(-2px)}
+.ftr__btn svg{flex:none}
 .ftr__bot{
   display:flex;justify-content:space-between;align-items:center;gap:18px;flex-wrap:wrap;
   margin-top:clamp(34px,4vw,50px);padding-top:24px;border-top:1px solid var(--line-soft);
@@ -1611,7 +1622,7 @@ body.is-sent .form__fields{display:none}
               <span class="err" data-err="name"></span>
             </div>
             <div class="field">
-              <input class="input" type="text" id="fContact" name="contact" placeholder="Телефон или Telegram" autocomplete="tel" required>
+              <input class="input" type="text" id="fContact" name="contact" placeholder="Телефон" autocomplete="tel" required>
               <span class="err" data-err="contact"></span>
             </div>
           </div>
@@ -1621,7 +1632,7 @@ body.is-sent .form__fields{display:none}
         <div class="fgroup">
           <label class="flabel" for="fUrl"><span class="num">2</span>Ссылка на ваш текущий сайт или сайт конкурента</label>
           <div class="field">
-            <input class="input" type="url" id="fUrl" name="url" placeholder="https://..." inputmode="url" autocomplete="url">
+            <input class="input" type="url" id="fUrl" name="site" placeholder="https://..." inputmode="url" autocomplete="url">
             <span class="hint">
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 16v-5M12 8h.01"/></svg>
               Необязательно, но так мы сразу поймем вашу ситуацию на рынке.
@@ -1657,7 +1668,7 @@ body.is-sent .form__fields{display:none}
         <div class="fgroup">
           <label class="flabel" for="fNote">Что больше всего не устраивает в текущей ситуации? <span class="opt">— необязательно</span></label>
           <div class="field">
-            <textarea class="input" id="fNote" name="note" placeholder="мало заявок / нецелевые лиды / сайт устарел / ..."></textarea>
+            <textarea class="input" id="fNote" name="pain" placeholder="мало заявок / нецелевые лиды / сайт устарел / ..."></textarea>
           </div>
         </div>
 
@@ -1668,6 +1679,7 @@ body.is-sent .form__fields{display:none}
             <svg class="btn__ico" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"/></svg>
           </button>
           <p class="form__legal">Нажимая на кнопку, вы ни к чему не обязываетесь. Это просто разговор о вашем бизнесе. Мы не передаем ваши данные третьим лицам.</p>
+          <p class="form__net" id="formNet" role="alert" hidden>Не удалось отправить заявку. Проверьте интернет и попробуйте ещё раз.</p>
         </div>
       </div>
 
@@ -1705,10 +1717,17 @@ body.is-sent .form__fields{display:none}
       </div>
       <div>
         <div class="ftr__h">Контакты</div>
-        <!-- ЗАМЕНИТЕ контакты на реальные -->
         <div class="ftr__l">
-          <a href="https://t.me/lenadesign" target="_blank" rel="noopener">Telegram: @lenadesign</a>
-          <a href="mailto:hello@lenadesign.ru">hello@lenadesign.ru</a>
+          <div class="ftr__btns">
+            <a class="ftr__btn" href="https://max.ru/join/dDjX2AE1-z8QbBk8GpI6207__VtE2FXRidArHdu5eZI" target="_blank" rel="noopener">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+              Написать в MAX
+            </a>
+            <a class="ftr__btn" href="https://vk.ru/lenadesign_landing" target="_blank" rel="noopener">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+              Написать в VK
+            </a>
+          </div>
           <span>Пн–Пт, 10:00–19:00</span>
         </div>
       </div>
@@ -1905,11 +1924,11 @@ body.is-sent .form__fields{display:none}
   function validate() {
     var ok = true;
     var name = fields.name.value.trim();
-    if (name.length < 2) { setError('name', 'Как к вам обращаться?'); ok = false; }
+    if (name.length < 2) { setError('name', 'Укажите имя'); ok = false; }
     else setError('name', '');
 
     var contact = fields.contact.value.trim();
-    if (contact.length < 5) { setError('contact', 'Телефон или @username в Telegram'); ok = false; }
+    if (contact.length < 5) { setError('contact', 'Укажите контакт для связи'); ok = false; }
     else setError('contact', '');
 
     var url = fields.url.value.trim();
@@ -1935,6 +1954,10 @@ body.is-sent .form__fields{display:none}
     });
   }
 
+  /* Отправка заявки в Google Apps Script (POST, JSON) */
+  var LEAD_ENDPOINT = 'https://script.google.com/macros/s/AKfycbyaIfu7LjqVgBplFS_YXU23-UFAWA72gEPFJ6Bs-JbIIc30ubGYC-gVsF8vukqjMVmL/exec';
+  var netErr = document.getElementById('formNet');
+
   form.addEventListener('submit', function (e) {
     e.preventDefault();
     if (!validate()) {
@@ -1942,35 +1965,51 @@ body.is-sent .form__fields{display:none}
       if (bad) bad.focus();
       return;
     }
+
+    var goal = form.querySelector('input[name="goal"]:checked');
+    var payload = {
+      name: fields.name.value.trim(),
+      contact: fields.contact.value.trim(),
+      site: fields.url.value.trim(),
+      tariff: noteField.value.trim(),
+      goal: goal.value,
+      pain: document.getElementById('fNote').value.trim()
+    };
+
     submitBtn.classList.add('is-loading');
     submitBtn.disabled = true;
+    netErr.hidden = true;
 
-    // ДЕМО: отправка без сервера. Здесь подставьте реальный endpoint (fetch/Formspree/Telegram-бот).
-    setTimeout(function () {
-      var goal = form.querySelector('input[name="goal"]:checked');
+    // mode:'no-cors' + text/plain — обходит CORS-преflight, который Apps Script не поддерживает.
+    // Тело остаётся JSON-строкой, скрипт читает её из e.postData.contents.
+    fetch(LEAD_ENDPOINT, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify(payload)
+    }).then(function () {
       var rows = [
-        ['Контакт', esc(fields.contact.value.trim())],
-        ['Сайт', fields.url.value.trim() ? esc(fields.url.value.trim()) : 'не указан'],
-        ['Цель', esc(goal.value)],
-        ['Тариф', noteField.value.trim() ? esc(noteField.value.trim()) : 'не выбран'],
-        ['Комментарий', fieldsNote() || '—']
+        ['Контакт', esc(payload.contact)],
+        ['Сайт', payload.site ? esc(payload.site) : 'не указан'],
+        ['Тариф', payload.tariff ? esc(payload.tariff) : 'не выбран'],
+        ['Цель', esc(payload.goal)],
+        ['Комментарий', payload.pain ? esc(payload.pain) : '—']
       ];
       doneSum.innerHTML = rows.map(function (r) {
         return '<div><dt>' + r[0] + '</dt><dd>' + r[1] + '</dd></div>';
       }).join('');
-      doneName.textContent = fields.name.value.trim();
+      doneName.textContent = payload.name;
 
       submitBtn.classList.remove('is-loading');
       submitBtn.disabled = false;
       document.body.classList.add('is-sent');
       done.classList.add('is-on');
       done.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'center' });
-    }, 1100);
-
-    function fieldsNote() {
-      var n = document.getElementById('fNote').value.trim();
-      return n ? esc(n) : '';
-    }
+    }).catch(function () {
+      submitBtn.classList.remove('is-loading');
+      submitBtn.disabled = false;
+      netErr.hidden = false;
+    });
   });
 
   ['name', 'contact', 'url'].forEach(function (key) {
