@@ -589,12 +589,20 @@ body.menu-open .mobnav{opacity:1;transform:none;pointer-events:auto}
    уже, и весь её контент — иконка, заголовок, цена и колонка галочек в .price__li —
    сдвигался вправо относительно «Старт» и «Премиум». Видимая толщина 2px сохранена
    inset-тенью: она рисуется внутри границы и размер бокса не меняет. */
+/* Зелёная рамка «Бизнеса»: контур ровный по всем четырём сторонам.
+   Раньше внешнее свечение было смещено вниз (0 26px 60px -26px), из-за чего
+   зелень выступала снизу шире, чем сверху, и рамка читалась перекошенной.
+   Теперь свечение симметричное (0 0 ...), а карточка не приподнята над
+   соседними: верх, низ и боковые линии совпадают со «Стартом» и «Максимумом». */
 .price--hot{
   border-color:var(--lime-2);
-  box-shadow:0 26px 60px -26px rgba(180,208,47,.6),inset 0 0 0 1px var(--lime-2);
-  transform:translateY(-6px);
+  box-shadow:inset 0 0 0 1px var(--lime-2), 0 0 46px -12px rgba(180,208,47,.42), var(--shadow-m);
+  transform:none;
 }
-.price--hot:hover{transform:translateY(-10px)}
+.price--hot:hover{
+  transform:translateY(-6px);
+  box-shadow:inset 0 0 0 1px var(--lime-2), 0 0 56px -10px rgba(180,208,47,.55), 0 18px 40px -18px rgba(10,12,14,.34);
+}
 .price__badge{
   position:absolute;top:-13px;left:50%;transform:translateX(-50%);padding:7px 16px;border-radius:999px;
   background:var(--lime);color:var(--ink);font-size:12px;font-weight:900;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap;
@@ -837,6 +845,53 @@ body.is-sent .form__fields{display:none}
 }
 .ftr__l .ftr__btn:hover{border-color:var(--lime);background:var(--lime);color:var(--ink);transform:translateY(-2px)}
 .ftr__btn svg{flex:none}
+
+/* ============================================================
+   16. FAQ
+   ============================================================ */
+.faq__head{display:flex;flex-direction:column;gap:12px;margin-bottom:clamp(26px,4vw,44px)}
+.faq__list{display:flex;flex-direction:column;gap:12px;max-width:880px}
+/* Пункт повторяет градиентные карточки .step: та же мягкая подложка,
+   рамка и реакция на наведение, чтобы аккордеон не выбивался из секций. */
+.faq__item{
+  position:relative;border:1px solid var(--line-soft);border-radius:var(--r);
+  background:linear-gradient(120deg,rgba(255,255,255,.035),rgba(255,255,255,.012));
+  transition:border-color .3s var(--ease),background-color .3s var(--ease),transform .3s var(--ease);
+}
+.faq__item:hover{border-color:rgba(180,208,47,.34)}
+/* Открытый пункт подсвечен лаймом — состояние читается без стрелки */
+.faq__item[open]{
+  border-color:rgba(180,208,47,.34);
+  background:linear-gradient(120deg,rgba(180,208,47,.07),rgba(255,255,255,.015));
+}
+.faq__q{
+  display:flex;align-items:center;justify-content:space-between;gap:16px;
+  padding:18px clamp(18px,3vw,26px);font-weight:800;font-size:clamp(16px,1.6vw,18px);
+  line-height:1.45;cursor:pointer;list-style:none;color:var(--white);position:relative;z-index:2;
+}
+.faq__q::-webkit-details-marker{display:none}
+.faq__q::after{
+  content:'';width:9px;height:9px;flex:none;margin-top:-4px;
+  border-right:2px solid var(--muted);border-bottom:2px solid var(--muted);
+  transform:rotate(45deg);transition:transform .28s var(--ease),border-color .28s var(--ease);
+}
+.faq__item[open] .faq__q::after{transform:rotate(-135deg);border-color:var(--lime);margin-top:4px}
+/* Текст ответа — приглушённый, как body-текст соседних тёмных секций.
+   Было --ink-2 (#414950): на графите нечитаемо. */
+.faq__a{padding:0 clamp(18px,3vw,26px) 18px;color:var(--muted);font-size:15.9px;line-height:1.66;max-width:70ch}
+.faq__a p{margin:0}
+.faq__a b{color:#E9EBED;font-weight:600}
+/* Акцент внутри ответа — лаймовый, как .acc в остальных секциях.
+   Правило нужно отдельно: .faq__a b специфичнее глобального .acc. */
+.faq__a b.acc{color:var(--lime)}
+.faq__more{margin-top:24px;font-size:15.4px;color:var(--muted-2)}
+.faq__more a{color:var(--lime);font-weight:700;border-bottom:1px solid rgba(180,208,47,.35);padding-bottom:2px;transition:border-color .25s var(--ease)}
+.faq__more a:hover{border-color:var(--lime)}
+@media (max-width:680px){
+  .faq__q{padding:15px 16px}
+  .faq__a{padding:0 16px 15px}
+  .faq__more{font-size:14.5px}
+}
 .ftr__bot{
   display:flex;justify-content:space-between;align-items:center;gap:18px;flex-wrap:wrap;
   margin-top:clamp(34px,4vw,50px);padding-top:24px;border-top:1px solid var(--line-soft);
@@ -962,6 +1017,7 @@ body.is-sent .form__fields{display:none}
   <a href="#prices">Цены</a>
   <a href="#nuzhen">Признаки</a>
   <a href="#otzyvy">Отзывы</a>
+  <a href="#faq">Вопросы</a>
   <a class="btn btn--lime btn--block" href="#cta">Записаться на стратегическую сессию</a>
 </nav>
 
@@ -1577,7 +1633,50 @@ body.is-sent .form__fields{display:none}
   </div>
 </section>
 
-<!-- ============ БЛОК 9. CTA + МИНИ-АНКЕТА ============ -->
+<!-- ============ БЛОК 9. FAQ ============ -->
+<!-- Аккордеон перед финальной формой: снимает последние возражения
+     (срок, цена, правки, конструкторы) там, где человек уже готов оставить заявку.
+     Механика — нативный <details>, поэтому работает и без JS; скрипт ниже
+     лишь закрывает остальные пункты, чтобы открытым был один. -->
+<section class="sec sec--dark sec--min" id="faq">
+  <div class="wrap">
+    <span class="eyebrow" data-reveal>Вопросы</span>
+    <h2 class="h-sec h-sec--wide" data-reveal style="--rd:60ms">Частые вопросы. <span class="acc">Отвечаю без воды.</span></h2>
+
+    <div class="faq__list">
+
+      <details class="faq__item" data-reveal>
+        <summary class="faq__q">Сколько времени занимает создание сайта?</summary>
+        <div class="faq__a"><p>От <b class="acc">3 до 7 дней</b> в зависимости от сложности.</p></div>
+      </details>
+
+      <details class="faq__item" data-reveal style="--rd:60ms">
+        <summary class="faq__q">Что входит в стоимость?</summary>
+        <div class="faq__a"><p>Текст, дизайн, вёрстка, адаптив под телефон, подключение формы заявок и публикация на хостинге.</p></div>
+      </details>
+
+      <details class="faq__item" data-reveal style="--rd:120ms">
+        <summary class="faq__q">Смогу ли я сама менять текст на сайте?</summary>
+        <div class="faq__a"><p>Сайт сделан на чистом коде, поэтому в нем нет кнопок для редактирования (как в Word). Чтобы вы ничего не сломали, все правки — текст, цены, фото — вы присылаете мне, а я вношу их <b class="acc">в течение дня</b>.</p></div>
+      </details>
+
+      <details class="faq__item" data-reveal style="--rd:180ms">
+        <summary class="faq__q">Почему вы не используете конструкторы?</summary>
+        <div class="faq__a"><p>Конструкторы дают шаблонный результат и лишний код. Я собираю сайты вручную — быстрее, чище и <b class="acc">без ежемесячной платы за подписку</b>.</p></div>
+      </details>
+
+      <details class="faq__item" data-reveal style="--rd:240ms">
+        <summary class="faq__q">Как проходит работа?</summary>
+        <div class="faq__a"><p><span class="acc">Бриф → структура → текст → дизайн → вёрстка → правки → публикация.</span> Вы видите результат на каждом этапе.</p></div>
+      </details>
+
+    </div>
+
+    <p class="faq__more" data-reveal>Не нашли свой вопрос? <a href="#cta">Задайте его на бесплатной сессии →</a></p>
+  </div>
+</section>
+
+<!-- ============ БЛОК 10. CTA + МИНИ-АНКЕТА ============ -->
 <section class="sec sec--min cta" id="cta">
   <div class="wrap cta__in">
     <div>
@@ -1712,6 +1811,7 @@ body.is-sent .form__fields{display:none}
           <a href="#kontakty">Кейсы</a>
           <a href="#prices">Цены</a>
           <a href="#otzyvy">Отзывы</a>
+          <a href="#faq">Вопросы</a>
         </div>
       </div>
       <div>
@@ -1877,6 +1977,17 @@ body.is-sent .form__fields{display:none}
   }
   prev.addEventListener('click', function () { revScroll(-1); });
   next.addEventListener('click', function () { revScroll(1); });
+
+  /* ---------- 7b. FAQ accordion: открыт только один пункт ---------- */
+  var faqItems = Array.prototype.slice.call(document.querySelectorAll('.faq__item'));
+  faqItems.forEach(function (item) {
+    item.addEventListener('toggle', function () {
+      if (!item.open) return;
+      faqItems.forEach(function (other) {
+        if (other !== item) other.open = false;
+      });
+    });
+  });
 
   /* ---------- 8. Pass tariff into the form ---------- */
   var form = document.getElementById('leadForm');
