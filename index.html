@@ -174,15 +174,15 @@ button{cursor:pointer;border:0;background:none}
   font-weight:900;font-size:16px;line-height:1;letter-spacing:-.01em;
   color:var(--ink);box-shadow:0 6px 18px -8px rgba(180,208,47,.9);
 }
-.nav{margin-left:auto;display:flex;align-items:center;gap:4px}
+.nav{margin-left:auto;display:flex;align-items:center;gap:2px}
 .nav a{
-  position:relative;padding:9px 13px;border-radius:9px;font-size:15px;font-weight:600;color:var(--muted);
+  position:relative;padding:9px 10px;border-radius:9px;font-size:14px;font-weight:600;color:var(--muted);
   transition:color .22s var(--ease),background-color .22s var(--ease);
 }
 .nav a:hover{color:var(--white);background:rgba(255,255,255,.06)}
 .nav a.is-active{color:var(--white)}
 .nav a.is-active::after{
-  content:'';position:absolute;left:13px;right:13px;bottom:2px;height:2px;border-radius:2px;background:var(--lime);
+  content:'';position:absolute;left:10px;right:10px;bottom:2px;height:2px;border-radius:2px;background:var(--lime);
 }
 .hdr__cta{flex:none}
 .hdr__cta .btn{padding:13px 22px;font-size:14.5px}
@@ -589,24 +589,23 @@ body.menu-open .mobnav{opacity:1;transform:none;pointer-events:auto}
    уже, и весь её контент — иконка, заголовок, цена и колонка галочек в .price__li —
    сдвигался вправо относительно «Старт» и «Премиум». Видимая толщина 2px сохранена
    inset-тенью: она рисуется внутри границы и размер бокса не меняет. */
-/* Зелёная рамка «Бизнеса»: контур ровный по всем четырём сторонам.
-   Раньше внешнее свечение было смещено вниз (0 26px 60px -26px), из-за чего
-   зелень выступала снизу шире, чем сверху, и рамка читалась перекошенной.
-   Теперь свечение симметричное (0 0 ...), а карточка не приподнята над
-   соседними: верх, низ и боковые линии совпадают со «Стартом» и «Максимумом». */
+/* Зелёная рамка «Бизнеса» — строго вертикальный прямоугольник.
+   Оставляем только сам контур: 1px рамка + 1px внутренняя линия = 2px
+   по всем четырём сторонам. Любое свечение вокруг убрано — мягкая зелёная
+   тень сбоку читалась как перекошенная вторая рамка. */
 .price--hot{
   border-color:var(--lime-2);
-  box-shadow:inset 0 0 0 1px var(--lime-2), 0 0 46px -12px rgba(180,208,47,.42), var(--shadow-m);
+  box-shadow:inset 0 0 0 1px var(--lime-2), var(--shadow-s);
   transform:none;
 }
 .price--hot:hover{
   transform:translateY(-6px);
-  box-shadow:inset 0 0 0 1px var(--lime-2), 0 0 56px -10px rgba(180,208,47,.55), 0 18px 40px -18px rgba(10,12,14,.34);
+  box-shadow:inset 0 0 0 1px var(--lime-2), var(--shadow-m);
 }
 .price__badge{
   position:absolute;top:-13px;left:50%;transform:translateX(-50%);padding:7px 16px;border-radius:999px;
   background:var(--lime);color:var(--ink);font-size:12px;font-weight:900;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap;
-  box-shadow:0 8px 20px -10px rgba(180,208,47,.95);
+  box-shadow:0 8px 18px -10px rgba(10,12,14,.35);
 }
 /* Раньше здесь стояли цветные emoji ⚡ 💎 🔥 — они не вписывались в контурные
    иконки остального сайта. Теперь та же начертательная схема, что у всех
@@ -917,9 +916,14 @@ body.is-sent .form__fields{display:none}
 /* ============================================================
    17. RESPONSIVE
    ============================================================ */
-@media (max-width:1080px){
+/* Девять пунктов меню плюс кнопка не помещаются в строку шапки до 1200px
+   (контент .wrap там уже, чем 1104px), поэтому на этом пороге навигация
+   уступает место бургеру. Остальная раскладка по-прежнему ломается на 1080px. */
+@media (max-width:1199px){
   .nav,.hdr__cta{display:none}
   .burger{display:grid}
+}
+@media (max-width:1080px){
   .hero__in{grid-template-columns:1fr;grid-template-areas:"text" "stack" "bottom";gap:52px}
   .hero__bottom{flex-direction:column;align-items:center}
   /* кнопка «Записаться…» получает точную ширину колонки, чтобы её длинный
@@ -1003,6 +1007,7 @@ body.is-sent .form__fields{display:none}
       <a href="#prices">Цены</a>
       <a href="#nuzhen">Признаки</a>
       <a href="#otzyvy">Отзывы</a>
+      <a href="#faq">Вопросы</a>
     </nav>
     <div class="hdr__cta"><a class="btn btn--lime" href="#cta">Записаться на сессию</a></div>
     <button class="burger" id="burger" aria-label="Открыть меню" aria-expanded="false" aria-controls="mobnav"><span></span></button>
