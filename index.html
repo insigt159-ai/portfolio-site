@@ -140,8 +140,8 @@ button{cursor:pointer;border:0;background:none}
 .btn--lime:hover{background:#C6DD4E;transform:translateY(-2px)}
 .btn--ink{background:var(--ink);color:#fff}
 .btn--ink:hover{transform:translateY(-2px);box-shadow:0 16px 30px -14px rgba(10,12,14,.6)}
-.btn--ghost{background:transparent;color:var(--white);border:1.5px solid var(--line)}
-.btn--ghost:hover{border-color:rgba(255,255,255,.45);background:rgba(255,255,255,.05);transform:translateY(-2px)}
+.btn--ghost{background:transparent;color:var(--lime);border:1.5px solid var(--lime)}
+.btn--ghost:hover{background:transparent;border-color:var(--lime);color:var(--lime);transform:translateY(-2px)}
 .btn--outline{background:#fff;color:var(--ink);border:1.5px solid var(--light-2);box-shadow:var(--shadow-s)}
 .btn--outline:hover{border-color:var(--ink);transform:translateY(-2px);box-shadow:var(--shadow-m)}
 .btn--block{width:100%}
@@ -215,7 +215,7 @@ body.menu-open .mobnav{opacity:1;transform:none;pointer-events:auto}
 .hero--min{padding-top:clamp(88px,11vw,128px);padding-bottom:clamp(32px,4vw,56px)}
 .hero__bg{position:absolute;inset:0;z-index:-2;background:
   radial-gradient(1000px 620px at 82% 6%,rgba(180,208,47,.14),transparent 62%),
-  radial-gradient(760px 520px at 4% 96%,rgba(120,190,255,.09),transparent 60%),
+  radial-gradient(760px 520px at 4% 96%,rgba(180,208,47,.09),transparent 60%),
   linear-gradient(180deg,#171A1D 0%,#121417 100%);
 }
 .hero__grid{
@@ -227,7 +227,7 @@ body.menu-open .mobnav{opacity:1;transform:none;pointer-events:auto}
 }
 .orb{position:absolute;border-radius:50%;filter:blur(70px);opacity:.5;z-index:-1;pointer-events:none}
 .orb--1{width:420px;height:420px;top:-140px;right:-80px;background:rgba(180,208,47,.20);animation:float 16s ease-in-out infinite}
-.orb--2{width:340px;height:340px;bottom:-120px;left:-90px;background:rgba(90,220,255,.14);animation:float 20s ease-in-out infinite reverse}
+.orb--2{width:340px;height:340px;bottom:-120px;left:-90px;background:rgba(180,208,47,.14);animation:float 20s ease-in-out infinite reverse}
 @keyframes float{0%,100%{transform:translate3d(0,0,0) scale(1)}50%{transform:translate3d(24px,-30px,0) scale(1.09)}}
 /* Hero: строка 1 — текст и картинка, строка 2 — блок кнопок и блок цифр.
    Строка 2 занимает всю ширину (grid-column:1/-1), а внутри это flex с
@@ -890,6 +890,41 @@ body.is-sent .form__fields{display:none}
   .faq__q{padding:15px 16px}
   .faq__a{padding:0 16px 15px}
   .faq__more{font-size:14.5px}
+}
+
+/* ============================================================
+   16b. ФОНОВЫЕ УЗОРЫ: ЦЕНЫ И FAQ
+   ============================================================ */
+/* Оба узора живут в псевдоэлементе секции и уходят под контент
+   (.wrap получает z-index:1), поэтому текст и карточки всегда сверху.
+   Прозрачность линий 4–5%: рисунок читается как фактура, но не спорит
+   с текстом и не мешает воспринимать цены. */
+#prices,#faq{overflow:hidden}
+#prices .wrap,#faq .wrap{position:relative;z-index:1}
+
+/* Цены: тонкая сетка в тон чернил + мягкое лаймовое пятно в правом верхнем
+   углу, как подсветка первого экрана. Маска гасит сетку к низу секции. */
+#prices::before{
+  content:'';position:absolute;inset:0;pointer-events:none;z-index:0;
+  background:
+    radial-gradient(680px 420px at 88% 2%,rgba(180,208,47,.10),transparent 66%),
+    linear-gradient(rgba(21,23,26,.05) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(21,23,26,.05) 1px,transparent 1px);
+  background-size:auto,64px 64px,64px 64px;
+  -webkit-mask-image:radial-gradient(120% 92% at 50% 0%,#000 28%,transparent 88%);
+  mask-image:radial-gradient(120% 92% at 50% 0%,#000 28%,transparent 88%);
+}
+
+/* FAQ: точечный растр вместо сетки — чтобы секции не повторяли друг друга.
+   Плюс слабое лаймовое свечение сверху слева, в тон аккордеону. */
+#faq::before{
+  content:'';position:absolute;inset:0;pointer-events:none;z-index:0;
+  background:
+    radial-gradient(620px 380px at 10% 4%,rgba(180,208,47,.10),transparent 64%),
+    radial-gradient(rgba(255,255,255,.10) 1px,transparent 1px);
+  background-size:auto,26px 26px;
+  -webkit-mask-image:radial-gradient(120% 100% at 50% 0%,#000 26%,transparent 82%);
+  mask-image:radial-gradient(120% 100% at 50% 0%,#000 26%,transparent 82%);
 }
 .ftr__bot{
   display:flex;justify-content:space-between;align-items:center;gap:18px;flex-wrap:wrap;
